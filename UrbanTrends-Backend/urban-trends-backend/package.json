@@ -54,6 +54,7 @@
     "@loopback/repository": "^8.0.5",
     "@loopback/rest": "^15.0.6",
     "@loopback/rest-explorer": "^8.0.6",
+    "@loopback/sequelize": "^0.8.3",
     "@loopback/service-proxy": "^8.0.5",
     "@types/jsonwebtoken": "^9.0.10",
     "bcryptjs": "^3.0.3",
@@ -62,6 +63,8 @@
     "loopback-connector-postgresql": "^7.2.3",
     "loopback4-authentication": "^13.0.4",
     "loopback4-authorization": "^8.0.0",
+    "pg": "^8.16.3",
+    "pg-hstore": "^2.3.4",
     "tslib": "^2.0.0"
   },
   "devDependencies": {

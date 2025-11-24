@@ -1,25 +1,27 @@
+
 import {inject, lifeCycleObserver, LifeCycleObserver} from '@loopback/core';
-import {juggler} from '@loopback/repository';
+import {SequelizeDataSource} from '@loopback/sequelize';
 require('dotenv').config();
 
 const config = {
   name: 'urbanTrendsDB',
   connector: 'postgresql',
-  url: process.env.DB_URL || '',
-  host: process.env.DB_HOST,
-  port: Number(process.env.DB_PORT),
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME
+  sequelizeOptions: {
+    dialect: 'postgres',
+    host: process.env.DB_HOST,
+    port: Number(process.env.DB_PORT),
+    username: process.env.DB_USER,  
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    logging: false,
+  },
 };
 
-// Observe application's life cycle to disconnect the datasource when
-// application is stopped. This allows the application to be shut down
-// gracefully. The `stop()` method is inherited from `juggler.DataSource`.
-// Learn more at https://loopback.io/doc/en/lb4/Life-cycle.html
 @lifeCycleObserver('datasource')
-export class UrbanTrendsDbDataSource extends juggler.DataSource
+export class UrbanTrendsDbDataSource
+  extends SequelizeDataSource
   implements LifeCycleObserver {
+    
   static dataSourceName = 'urbanTrendsDB';
   static readonly defaultConfig = config;
 
