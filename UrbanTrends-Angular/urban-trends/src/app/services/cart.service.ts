@@ -9,43 +9,42 @@ import { AuthService } from './auth.service';
 
 //Every component that injects CartService gets the same instance.
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class CartService {
   private apiUrl = `${environment.apiUrl}/carts`;
 
-  constructor(private httpClient: HttpClient,
-             private auth:AuthService
+  constructor(
+    private httpClient: HttpClient,
+    private auth: AuthService,
   ) {}
 
-  private getHeaders(){
-    const token = this.auth.getToken();
-    return new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    });
+  // private getHeaders() {
+  //   const token = this.auth.getToken();
+  //   return new HttpHeaders({
+  //     Authorization: `Bearer ${token}`,
+  //     'Content-Type': 'application/json',
+  //   });
+  // }
+
+  getCartItems(userId: number): Observable<Cart[]> {
+    return this.httpClient.get<Cart[]>(`${this.apiUrl}/user/${userId}`);
   }
-
-  getCartItems(userId:number): Observable<Cart[]> {
-  return this.httpClient.get<Cart[]>(`${this.apiUrl}/user/${userId}`, { headers: this.getHeaders() });
-}
-
 
   addToCart(userId: number, productId: number): Observable<Cart> {
     console.log('Adding to cart:', { userId, productId });
-    
-    return this.httpClient.post<Cart>(this.apiUrl, {
-      userId,
-      productId,
-      quantity: 1
-    },
-  { headers: this.getHeaders() });
-  }
 
+    return this.httpClient.post<Cart>(
+      this.apiUrl,
+      {
+        userId,
+        productId,
+        quantity: 1,
+      }
+    );
+  }
 
   removeFromCart(cartId: number): Observable<void> {
-    return this.httpClient.delete<void>(`${this.apiUrl}/${cartId}`, { headers: this.getHeaders() });
+    return this.httpClient.delete<void>(`${this.apiUrl}/${cartId}`);
   }
-
 }

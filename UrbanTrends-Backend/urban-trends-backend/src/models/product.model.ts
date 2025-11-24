@@ -1,5 +1,6 @@
-import {Entity, model, property, hasMany} from '@loopback/repository';
+import {Entity, hasMany, model, property} from '@loopback/repository';
 import {Cart} from './cart.model';
+import {OrderItem} from './order-item.model';
 
 @model({name: 'products'})
 export class Product extends Entity {
@@ -33,7 +34,7 @@ export class Product extends Entity {
     type: 'number',
     required: true,
   })
-  quantity: number;
+  stock: number;
 
   @property({
     type: 'string',
@@ -45,10 +46,13 @@ export class Product extends Entity {
     type: 'string',
     required: true,
   })
-  imageUrl: string;
+  image_url: string;
 
   @hasMany(() => Cart, {keyTo: 'productId'})
   carts: Cart[];
+
+  @hasMany(() => OrderItem, {keyTo: 'productId'})
+  orderItems: OrderItem[];
 
   constructor(data?: Partial<Product>) {
     super(data);

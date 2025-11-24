@@ -2,9 +2,8 @@ import {Provider} from '@loopback/core';
 import {HttpErrors} from '@loopback/rest';
 import * as jwt from 'jsonwebtoken';
 import {VerifyFunction} from 'loopback4-authentication';
-import {PermissionKey} from '../enums/permissions.enum';
 import {RolePermissions} from '../enums/role-permissions.enum';
-
+import {RoleKey} from '../enums/role.enum';
 require('dotenv').config();
 
 
@@ -20,15 +19,15 @@ export class JWTVerifierProvider implements Provider<VerifyFunction.BearerFn> {
           id: number;
           email: string;
           username: string;
-          role: string;
+          role: RoleKey;
         };
         console.log('decoded: ', decoded);
 
 
-        const userRole = decoded.role;
+        const userRole = decoded.role as RoleKey;
         console.log('User role from token:', userRole);
 
-        const permissions: PermissionKey[] = RolePermissions[userRole] || [];
+        const permissions = RolePermissions[userRole] || [];
         console.log('Assigned permissions based on role:', permissions);
 
 

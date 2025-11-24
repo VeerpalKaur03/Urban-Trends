@@ -15,7 +15,7 @@ import {authenticate, STRATEGY} from 'loopback4-authentication';
 import {authorize} from 'loopback4-authorization';
 import {PermissionKey} from '../enums/permissions.enum';
 import {Order} from '../models';
-import {CartRepository, OrderRepository, ProductRepository, UserRepository} from '../repositories';
+import {CartRepository, OrderItemRepository, OrderRepository, ProductRepository, UserRepository} from '../repositories';
 
 
 export class OrderController {
@@ -31,6 +31,9 @@ export class OrderController {
 
     @repository(CartRepository)
     public cartRepository: CartRepository,
+
+    @repository(OrderItemRepository)
+    public orderItemRepository: OrderItemRepository,
   ) { }
 
 
@@ -68,19 +71,33 @@ export class OrderController {
 
     // add logic to calculate total price
 
-    let totalAmount = 0;
-    for (const item of cartItems) {
-      const product = await this.productRepository.findById(item.productId);
-      totalAmount += product.price * item.quantity;
+    // let totalAmount = 0;
+    // for (const item of cartItems) {
+    //   const product = await this.productRepository.findById(item.productId);
+    //   totalAmount += product.price * item.quantity;
 
-    }
+    // }
 
 
     const newOrder = await this.orderRepository.create({
-      totalAmount,
+      // totalAmount,
       status: 'Placed',
       userId,
     });
+
+    console.log('newOrder', newOrder);
+
+
+    for (const item of cartItems) {
+      const product = await this.productRepository.findById(item.productId);
+
+      await this.orderRepository.orderItems(newOrder.id).create({
+        productId: item.productId,
+        quantity: item.quantity,
+        priceAtPurchase: product.price,
+      });
+    }
+
 
 
     // Clear the cart after placing the order
@@ -114,6 +131,15 @@ export class OrderController {
   ): Promise<Order[]> {
     return this.orderRepository.find({
       where: {userId},
+      include: [
+        {
+          relation: 'orderItems',
+          scope: {
+            include: [{relation: 'product'}]
+          }
+        }
+      ]
+
     });
   }
 

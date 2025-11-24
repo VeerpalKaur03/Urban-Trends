@@ -14,29 +14,23 @@
       </h2>
       <p class="text-lg md:text-xl mb-6">{{ slide.subtitle }}</p>
       <button
-        class="bg-white text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition"
-        (click)="scrollToProducts()"
-      >
-        Shop Now
-      </button>
+  class="bg-white text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition cursor-pointer"
+  (click)="scrollToProducts()"
+>
+  Shop Now
+</button>
+
     </div>
   </div>
 </div>
 
 <!-- ===== PRODUCT LIST ===== -->
-<section
-  #productsSection
-  class="max-w-7xl mx-auto px-8 py-10 bg-gray-100 rounded-xl shadow-inner"
->
-  <h2
-    class="text-2xl font-medium text-gray-700 mb-6 tracking-wide text-center"
-  >
+<section #productsSection class="max-w-7xl mx-auto px-8 py-10 bg-gray-100 rounded-xl shadow-inner">
+  <h2 class="text-2xl font-medium text-gray-700 mb-6 tracking-wide text-center">
     {{ currentCategory ? currentCategory + ' Collection' : 'Discover Our Signature Collection' }}
   </h2>
 
-  <div
-    class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"
-  >
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
     <div
       *ngFor="let product of filteredProducts"
       class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border-t-4"
@@ -60,9 +54,7 @@
       <!-- PRODUCT DETAILS -->
       <div class="p-4 flex flex-col justify-between h-[180px]">
         <div>
-          <h3
-            class="text-sm font-semibold text-gray-800 truncate"
-          >
+          <h3 class="text-sm font-semibold text-gray-800 truncate">
             {{ product.name }}
           </h3>
           <p class="text-xs text-gray-500 mt-1 line-clamp-2">
@@ -71,15 +63,14 @@
         </div>
 
         <div class="mt-4 flex items-center justify-between">
-          <p class="text-base font-bold text-gray-800">
-            ₹{{ product.price }}
-          </p>
+          <p class="text-base font-bold text-gray-800">₹{{ product.price }}</p>
           <button
-            (click)="addToCart(product.id)"
-            class="bg-gray-900 text-white text-xs font-semibold px-3 py-2 rounded-md hover:bg-gray-700 transition"
-          >
-            ADD TO CART
-          </button>
+  (click)="addToCart(product.id)"
+  class="bg-gray-900 text-white text-xs font-semibold px-3 py-2 rounded-md hover:bg-gray-700 transition cursor-pointer"
+>
+  ADD TO CART
+</button>
+
         </div>
       </div>
     </div>

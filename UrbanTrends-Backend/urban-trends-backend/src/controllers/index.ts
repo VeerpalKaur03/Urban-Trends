@@ -9,3 +9,8 @@ export * from './product-cart.controller';
 export * from './cart-user.controller';
 export * from './cart-product.controller';
 export * from './order-user.controller';
+export * from './order-item.controller';
+export * from './product-order-item.controller';
+export * from './order-item-product.controller';
+export * from './order-order-item.controller';
+export * from './order-item-order.controller';

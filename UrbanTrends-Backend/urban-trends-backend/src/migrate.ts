@@ -6,7 +6,7 @@ export async function migrate(args: string[]) {
 
   const app = new UrbanThreadsBackendApplication();
   await app.boot();
-  await app.migrateSchema({existingSchema, models: ['users', 'products', 'orders', 'carts']});
+  await app.migrateSchema({existingSchema, models: ['users', 'products', 'orders', 'carts', 'order_items']});
 
   // Connectors usually keep a pool of opened connections,
   // this keeps the process running even after all work is done.

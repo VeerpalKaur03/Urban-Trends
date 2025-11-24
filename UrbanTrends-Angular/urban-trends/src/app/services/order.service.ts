@@ -11,43 +11,36 @@ import { AuthService } from './auth.service';
 //Every component that injects OrderService gets the same instance.
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class OrderService {
   private apiUrl = `${environment.apiUrl}/orders`;
 
-  constructor(private httpClient: HttpClient, private auth:AuthService) { }
+  constructor(
+    private httpClient: HttpClient,
+    private auth: AuthService,
+  ) {}
 
-  private getHeaders() {
-    const token = this.auth.getToken();
-    return new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    });
-  }
+  // private getHeaders() {
+  //   const token = this.auth.getToken();
+  //   return new HttpHeaders({
+  //     Authorization: `Bearer ${token}`,
+  //     'Content-Type': 'application/json',
+  //   });
+  // }
 
-  getOrder(userId:number): Observable<Order[]> {
-    return this.httpClient.get<Order[]>(`${this.apiUrl}/user/${userId}`,  {
-      headers: this.getHeaders(),
-    });
+  getOrder(userId: number): Observable<Order[]> {
+    return this.httpClient.get<Order[]>(`${this.apiUrl}/user/${userId}`);
   }
 
   // If backend computes totals, accept userId and cart items and let server build the order
- placeOrder(userId: number): Observable<Order> {
-  console.log('Placing order for userId:', userId);
-  
-  return this.httpClient.post<Order>(`${this.apiUrl}/${userId}`, null,  {
-      headers: this.getHeaders(),
-    });
-}
+  placeOrder(userId: number): Observable<Order> {
+    console.log('Placing order for userId:', userId);
 
-
-
-  cancelOrder(orderId: number): Observable<Order> {
-    return this.httpClient.delete<Order>(`${this.apiUrl}/${orderId}`,  {
-      headers: this.getHeaders(),
-    });
+    return this.httpClient.post<Order>(`${this.apiUrl}/${userId}`, null);
   }
 
-
+  cancelOrder(orderId: number): Observable<Order> {
+    return this.httpClient.delete<Order>(`${this.apiUrl}/${orderId}`);
+  }
 }

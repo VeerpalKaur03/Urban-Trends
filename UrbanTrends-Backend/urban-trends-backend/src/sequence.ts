@@ -57,8 +57,7 @@ export class MySequence implements SequenceHandler {
         '/explorer',
         '/products',
         '/products/{id}',
-        '/images',
-        '/admin/signup'
+        '/images'
       ];
       const isPublic = publicRoutes.some(path => request.path.startsWith(path));
 

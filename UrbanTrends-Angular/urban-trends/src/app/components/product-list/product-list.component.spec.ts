@@ -9,8 +9,7 @@ describe('ProductListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProductListComponent, HttpClientTestingModule,
-        RouterTestingModule]
+      imports: [ProductListComponent, HttpClientTestingModule, RouterTestingModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProductListComponent);
@@ -25,7 +24,6 @@ describe('ProductListComponent', () => {
   it('initial products array should be empty', () => {
     expect(component.products.length).toBe(0);
   });
-
 
   it('slides array should have items', () => {
     expect(component.slides.length).toBeGreaterThan(0);
@@ -46,6 +44,4 @@ describe('ProductListComponent', () => {
   it('scrollToProducts should be defined', () => {
     expect(typeof component.scrollToProducts).toBe('function');
   });
-
-  
 });

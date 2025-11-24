@@ -1,15 +1,16 @@
 import {inject, lifeCycleObserver, LifeCycleObserver} from '@loopback/core';
 import {juggler} from '@loopback/repository';
+require('dotenv').config();
 
 const config = {
   name: 'urbanTrendsDB',
   connector: 'postgresql',
-  url: '',
-  host: 'localhost',
-  port: 5432,
-  user: 'sequelize_practice',
-  password: 'mypassword',
-  database: 'urbanTrends'
+  url: process.env.DB_URL || '',
+  host: process.env.DB_HOST,
+  port: Number(process.env.DB_PORT),
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
 };
 
 // Observe application's life cycle to disconnect the datasource when

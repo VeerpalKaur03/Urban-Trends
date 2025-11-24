@@ -1,6 +1,5 @@
 export enum PermissionKey {
   // Product permissions
-
   ViewProduct = 'ViewProduct',
 
 

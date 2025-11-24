@@ -6,8 +6,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent, HttpClientTestingModule,
-        RouterTestingModule],
+      imports: [AppComponent, HttpClientTestingModule, RouterTestingModule],
     }).compileComponents();
   });
 
@@ -16,6 +15,4 @@ describe('AppComponent', () => {
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
-
-  
 });

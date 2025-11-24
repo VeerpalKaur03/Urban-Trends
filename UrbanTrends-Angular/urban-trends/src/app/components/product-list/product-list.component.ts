@@ -14,7 +14,7 @@ import { AuthService } from '../../services/auth.service';
   standalone: true,
   imports: [HttpClientModule, NgFor, NgClass],
   templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.css']
+  styleUrls: ['./product-list.component.css'],
 })
 export class ProductListComponent implements OnInit {
   @ViewChild('productsSection') productsSection!: ElementRef<HTMLElement>;
@@ -30,8 +30,7 @@ export class ProductListComponent implements OnInit {
   currentCategory: string = '';
   userId!: number;
 
-
-  // Slideshow 
+  // Slideshow
   slides = [
     {
       image: '/assets/posters/winter.jpg',
@@ -51,18 +50,16 @@ export class ProductListComponent implements OnInit {
   ];
   currentSlide = 0;
 
-
   constructor(
     private productService: ProductService,
     private cartService: CartService,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
 
   ngOnInit(): void {
-
     this.getProducts();
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe((params) => {
       this.currentCategory = params['category'] || '';
       this.filterByCategory();
     });
@@ -80,7 +77,6 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-
   addToCart(productId: number): void {
     const id = this.authService.getUserId();
     if (!id) {
@@ -90,7 +86,7 @@ export class ProductListComponent implements OnInit {
 
     this.userId = id;
     console.log('Adding product to cart:', productId, 'for user:', this.userId);
-    
+
     this.cartService.addToCart(this.userId, productId).subscribe({
       next: () => alert('Added to cart!'),
       error: (err) => {
@@ -104,11 +100,11 @@ export class ProductListComponent implements OnInit {
     this.filteredProducts = !this.currentCategory
       ? this.products
       : this.products.filter(
-          p => p.category.toLowerCase() === this.currentCategory.toLowerCase()
+          (p) => p.category.toLowerCase() === this.currentCategory.toLowerCase(),
         );
   }
 
   getCardConfig(product: Product) {
-  return ProductCardFactory.createCard(product);
-}
+    return ProductCardFactory.createCard(product);
+  }
 }

@@ -9,9 +9,7 @@ describe('NavbarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NavbarComponent, HttpClientTestingModule,
-        RouterTestingModule
-      ]
+      imports: [NavbarComponent, HttpClientTestingModule, RouterTestingModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(NavbarComponent);
@@ -27,8 +25,6 @@ describe('NavbarComponent', () => {
     expect(component.showAuthModal).toBeFalse();
   });
 
-
-
   it('should toggle login/signup mode', () => {
     const initialState = component.isLogin;
     component.toggleAuthMode();
@@ -40,7 +36,6 @@ describe('NavbarComponent', () => {
     expect(component.password).toBe('');
   });
 
-  
   it('should return empty username when localStorage has no user', () => {
     localStorage.removeItem('user');
     expect(component.userName).toBe('');

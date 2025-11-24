@@ -9,8 +9,7 @@ describe('CartService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule,
-        RouterTestingModule]
+      imports: [HttpClientTestingModule, RouterTestingModule],
     });
     service = TestBed.inject(CartService);
   });
@@ -18,5 +17,4 @@ describe('CartService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-  
 });

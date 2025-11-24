@@ -1,8 +1,9 @@
 import {PermissionKey} from './permissions.enum';
+import {RoleKey} from './role.enum';
 
-export const RolePermissions: Record<string, PermissionKey[]> = {
+export const RolePermissions: Record<RoleKey, PermissionKey[]> = {
   // Admin
-  admin: [
+  [RoleKey.Admin]: [
     PermissionKey.CreateProduct,
     PermissionKey.ViewProduct,
     PermissionKey.DeleteProduct,
@@ -21,7 +22,7 @@ export const RolePermissions: Record<string, PermissionKey[]> = {
   ],
 
   //  Customer
-  customer: [
+  [RoleKey.Customer]: [
     PermissionKey.ViewProduct,
 
     PermissionKey.CreateOrders,

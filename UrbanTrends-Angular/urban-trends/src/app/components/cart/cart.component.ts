@@ -2,112 +2,78 @@ import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import { OrderService } from '../../services/order.service';
 import { Cart } from '../../models/cart.model';
-import { NgFor, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
+import { CartItemsComponent } from './cart-items/cart-items.component';
+import { OrderSummaryComponent } from './order-summary/order-summary.component';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [NgFor, NgIf, RouterLink],
-  templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.css']
+  imports: [ CartItemsComponent, OrderSummaryComponent],
+  templateUrl: './cart.component.html'
 })
+
+
 export class CartComponent implements OnInit {
   cartItems: Cart[] = [];
-  totalAmount: number = 0;
-  totalItems: number = 0;
-  isPlacingOrder: boolean = false;
+  totalAmount = 0;
+  totalItems = 0;
+  isPlacingOrder = false;
   userId!: number;
 
   constructor(
     private cartService: CartService,
     private orderService: OrderService,
     private router: Router,
-    private httpClient: HttpClient,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
 
   ngOnInit() {
     const id = this.authService.getUserId();
-    console.log('id in cart:', id);
-    
+
     if (!id) {
-      alert('Please login to view your cart.');
+      alert('Please login first.');
       this.router.navigate(['/']);
       return;
     }
 
     this.userId = id;
-    console.log('userId in cart component:', this.userId);
-    
-    this.getCartItems();
+    this.fetchCart();
   }
 
-
-
-  getCartItems() {
-  console.log('Fetching cart for user:', this.userId);
-    
+  fetchCart() {
     this.cartService.getCartItems(this.userId).subscribe({
-      next: (items: any[]) => {
-        console.log('Fetched cart items:', items);
-        this.cartItems = items || [];
+      next: (items) => {
+        this.cartItems = items;
 
-        // Calculate totals
-        this.totalAmount = this.cartItems.reduce(
-          (sum, item) => sum + (item.product?.price || 0) * item.quantity,
-          0
+        this.totalAmount = items.reduce(
+          (sum, item) => sum + item.product!.price * item.quantity, 0
         );
-        this.totalItems = this.cartItems.reduce(
-          (sum, item) => sum + item.quantity,
-          0
-        );
+
+        this.totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
       },
-      error: (err) => {
-        console.error('Failed to fetch cart items', err);
-        alert('Error fetching cart items.');
-      },
+      error: () => alert('Error fetching cart.')
     });
   }
 
-
-
-  removeFromCart(cartId: number) {
+  removeItem(cartId: number) {
     this.cartService.removeFromCart(cartId).subscribe({
-      next: () => this.getCartItems(),
-      error: (err) => {
-        console.error('Error removing item:', err);
-        alert('Failed to remove item.');
-      },
+      next: () => this.fetchCart(),
+      error: () => alert('Failed to remove')
     });
   }
-
-
 
   placeOrder() {
-    if (!this.cartItems.length) {
-      alert('Your cart is empty!');
-      return;
-    }
-
     this.isPlacingOrder = true;
 
     this.orderService.placeOrder(this.userId).subscribe({
       next: () => {
-        alert('Order placed successfully! 🎉');
-        this.isPlacingOrder = false;
-        this.cartItems = [];
-        this.totalAmount = 0;
-        this.totalItems = 0;
+        alert('Order placed!');
         this.router.navigate(['/orders']);
       },
-      error: (err) => {
-        console.error('Order placement failed:', err);
-        alert('Failed to place order!');
-        this.isPlacingOrder = false;
-      },
+      error: () => alert('Failed to place'),
     });
   }
 }

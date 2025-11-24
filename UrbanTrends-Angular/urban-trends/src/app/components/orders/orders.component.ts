@@ -8,17 +8,21 @@ import { AuthService } from '../../services/auth.service';
   selector: 'app-orders',
   imports: [NgFor, NgIf],
   templateUrl: './orders.component.html',
-  styleUrl: './orders.component.css'
+  styleUrl: './orders.component.css',
 })
-export class OrdersComponent {
-  orders: Order[] =[]
-  userId!:number;
-   
-  constructor(private orderService: OrderService, private authService: AuthService){}
 
-  ngOnInit(){
-     const id = this.authService.getUserId();
-     console.log('id in orders:', id);
+export class OrdersComponent {
+  orders: Order[] = [];
+  userId!: number;
+
+  constructor(
+    private orderService: OrderService,
+    private authService: AuthService,
+  ) {}
+
+  ngOnInit() {
+    const id = this.authService.getUserId();
+    console.log('id in orders:', id);
 
     if (!id) {
       alert('Please login to view your orders.');
@@ -27,35 +31,45 @@ export class OrdersComponent {
 
     this.userId = id;
     this.getOrder();
-
   }
 
-
-   getOrder(){
-     {
+  getOrder() {
     this.orderService.getOrder(this.userId).subscribe({
       next: (res) => {
+        console.log('data received ', res);
         this.orders = res;
       },
-      error: (err) => console.error(err)
+      error: (err) => console.error(err),
     });
   }
-   }
 
-
-   cancelOrder(orderId: number) {
+  cancelOrder(orderId: number) {
     if (!confirm('Are you sure you want to cancel this order?')) return;
 
     this.orderService.cancelOrder(orderId).subscribe({
-      next: (res) => {
+      next: () => {
         alert('Order cancelled successfully.');
         this.getOrder(); // Refresh list
       },
       error: (err) => {
         console.error(err);
         alert('Failed to cancel order.');
-      }
+      },
     });
-   }
-  
   }
+
+  // total calculation
+  calculateTotal(order: any): number {
+    if (!order || !order.orderItems || order.orderItems.length === 0) {
+      return 0;
+    }
+
+    let total = 0;
+
+    order.orderItems.forEach((item: any) => {
+      total += item.priceAtPurchase * item.quantity;
+    });
+
+    return total;
+  }
+}

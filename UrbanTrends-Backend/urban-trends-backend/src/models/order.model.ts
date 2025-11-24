@@ -1,4 +1,5 @@
-import {belongsTo, Entity, model, property} from '@loopback/repository';
+import {belongsTo, Entity, hasMany, model, property} from '@loopback/repository';
+import {OrderItem} from './order-item.model';
 import {User} from './user.model';
 
 @model({name: 'orders'})
@@ -11,17 +12,18 @@ export class Order extends Entity {
   })
   id?: number;
 
-  @property({
-    type: 'number',
-    required: false,
-  })
-  totalAmount?: number;
+
 
   @property({
     type: 'string',
     required: false,
   })
   status?: string;
+
+
+
+  @hasMany(() => OrderItem, {keyTo: 'orderId'})
+  orderItems: OrderItem[];
 
   @belongsTo(() => User)
   userId: number;

@@ -1,7 +1,6 @@
 <!-- ===== NAVBAR ===== -->
 <nav class="bg-gray-900 text-gray-100 font-sans shadow-md h-18">
   <div class="max-w-7xl mx-auto px-8 py-3 flex justify-between items-center">
-    
     <!-- LEFT: LOGO + MENU -->
     <div class="flex items-center space-x-10 mt-3">
       <a routerLink="/" class="text-2xl font-bold text-white tracking-wide cursor-pointer">
@@ -9,79 +8,128 @@
       </a>
 
       <div class="flex space-x-6 text-sm uppercase tracking-wider">
-        <a routerLink="/category/Men" routerLinkActive="text-white border-b-2 border-white"
-           class="hover:text-gray-300 cursor-pointer transition duration-200 pb-1">Men</a>
-        <a routerLink="/category/Ladies" routerLinkActive="text-white border-b-2 border-white"
-           class="hover:text-gray-300 cursor-pointer transition duration-200 pb-1">Ladies</a>
-        <a routerLink="/category/Kids" routerLinkActive="text-white border-b-2 border-white"
-           class="hover:text-gray-300 cursor-pointer transition duration-200 pb-1">Kids</a>
-        <a routerLink="/category/Accessories" routerLinkActive="text-white border-b-2 border-white"
-           class="hover:text-gray-300 cursor-pointer transition duration-200 pb-1">Accessories</a>
+        <a
+          routerLink="/category/Men"
+          routerLinkActive="text-white border-b-2 border-white"
+          class="hover:text-gray-300 cursor-pointer transition duration-200 pb-1"
+          >Men</a
+        >
+        <a
+          routerLink="/category/Ladies"
+          routerLinkActive="text-white border-b-2 border-white"
+          class="hover:text-gray-300 cursor-pointer transition duration-200 pb-1"
+          >Ladies</a
+        >
+        <a
+          routerLink="/category/Kids"
+          routerLinkActive="text-white border-b-2 border-white"
+          class="hover:text-gray-300 cursor-pointer transition duration-200 pb-1"
+          >Kids</a
+        >
+        <a
+          routerLink="/category/Accessories"
+          routerLinkActive="text-white border-b-2 border-white"
+          class="hover:text-gray-300 cursor-pointer transition duration-200 pb-1"
+          >Accessories</a
+        >
       </div>
     </div>
 
-
-
     <!-- RIGHT: NAV LINKS -->
     <div class="flex items-center space-x-8 text-sm font-medium">
-      <a routerLink="/" class="hover:text-gray-300 cursor-pointer transition duration-200 pb-1">Home</a>
-      <a routerLink="/carts" routerLinkActive="text-white border-b-2 border-white"
-         class="hover:text-gray-300 cursor-pointer transition duration-200 pb-1 flex items-center gap-1">Cart</a>
-      <a routerLink="/orders" routerLinkActive="text-white border-b-2 border-white"
-         class="hover:text-gray-300 cursor-pointer transition duration-200 pb-1">Orders</a>
-
-
+      <a routerLink="/" class="hover:text-gray-300 cursor-pointer transition duration-200 pb-1"
+        >Home</a
+      >
+      <a
+        routerLink="/carts"
+        routerLinkActive="text-white border-b-2 border-white"
+        class="hover:text-gray-300 cursor-pointer transition duration-200 pb-1 flex items-center gap-1"
+        >Cart</a
+      >
+      <a
+        routerLink="/orders"
+        routerLinkActive="text-white border-b-2 border-white"
+        class="hover:text-gray-300 cursor-pointer transition duration-200 pb-1"
+        >Orders</a
+      >
 
       <!-- LOGIN / SIGNUP OR USER ICON -->
       <ng-container *ngIf="!isLoggedIn; else userBlock">
-        <a (click)="openAuthModal()"
-           class="bg-white text-gray-900 px-5 py-2 rounded-md hover:bg-gray-200 font-medium transition duration-200 cursor-pointer">
+        <a
+          (click)="openAuthModal()"
+          class="bg-white text-gray-900 px-5 py-2 rounded-md hover:bg-gray-200 font-medium transition duration-200 cursor-pointer"
+        >
           Login / Signup
         </a>
       </ng-container>
 
-      
-
       <ng-template #userBlock>
         <div class="flex items-center gap-2">
           <!-- Avatar -->
-          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-gray-700 font-bold">
+          <div
+            class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-gray-700 font-bold"
+          >
             {{ userName.charAt(0).toUpperCase() }}
           </div>
           <!-- Logout button -->
-          <button (click)="logout()"
-                  class="bg-gray-700 text-white px-2 py-1 rounded hover:bg-gray-600 text-sm">
+          <button
+            (click)="logout()"
+            class="bg-gray-700 text-white px-2 py-1 rounded hover:bg-gray-600 text-sm"
+          >
             Logout
           </button>
         </div>
       </ng-template>
     </div>
-
   </div>
 </nav>
 
-
-<!-- ===== AUTH MODAL ===== -->
-<div *ngIf="showAuthModal" (click)="closeModal($event)"
-     class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50">
+<!-- AUTH MODAL -->
+<div
+  *ngIf="showAuthModal"
+  (click)="closeModal($event)"
+  class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50"
+>
   <div class="bg-white rounded-lg shadow-lg w-96 p-6 relative">
     <h2 class="text-2xl font-bold mb-4 text-center">{{ isLogin ? 'Login' : 'Signup' }}</h2>
 
     <form (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
       <!-- Name field for Signup -->
-      <input *ngIf="!isLogin" type="text" [(ngModel)]="name" name="name"
-             placeholder="Full Name" class="border p-2 rounded" required />
+      <input
+        *ngIf="!isLogin"
+        type="text"
+        [(ngModel)]="name"
+        name="name"
+        placeholder="Full Name"
+        class="border p-2 rounded"
+        required
+      />
 
       <!-- Email -->
-      <input type="email" [(ngModel)]="email" name="email"
-             placeholder="Email" class="border p-2 rounded" required />
+      <input
+        type="email"
+        [(ngModel)]="email"
+        name="email"
+        placeholder="Email"
+        class="border p-2 rounded"
+        required
+      />
 
       <!-- Password -->
-      <input type="password" [(ngModel)]="password" name="password"
-             placeholder="Password" class="border p-2 rounded" required />
+      <input
+        type="password"
+        [(ngModel)]="password"
+        name="password"
+        placeholder="Password"
+        class="border p-2 rounded"
+        required
+      />
 
       <!-- Submit Button -->
-      <button type="submit" class="bg-gray-900 text-white py-2 rounded hover:bg-gray-800 transition">
+      <button
+        type="submit"
+        class="bg-gray-900 text-white py-2 rounded hover:bg-gray-800 transition cursor-pointer"
+      >
         {{ isLogin ? 'Login' : 'Signup' }}
       </button>
     </form>
