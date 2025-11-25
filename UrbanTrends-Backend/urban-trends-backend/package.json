@@ -58,6 +58,8 @@
     "@loopback/service-proxy": "^8.0.5",
     "@types/jsonwebtoken": "^9.0.10",
     "bcryptjs": "^3.0.3",
+    "db-migrate": "^0.11.14",
+    "db-migrate-pg": "^1.5.2",
     "dotenv": "^17.2.3",
     "jsonwebtoken": "^9.0.2",
     "loopback-connector-postgresql": "^7.2.3",

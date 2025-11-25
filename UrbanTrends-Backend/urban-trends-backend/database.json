@@ -1,0 +1,10 @@
+{
+  "pg": {
+    "driver": "pg",
+    "host": "localhost",
+    "database": "urbanTrends",
+    "user": "sequelize_practice",
+    "password": "mypassword",
+    "port": 5432
+  }
+}
