@@ -4,7 +4,7 @@ exports.up = function (db, callback) {
   db.createTable('orders', {
     id: { type: 'int', primaryKey: true, autoIncrement: true },
     status: { type: 'string' },
-    userId: {
+    user_id: {
       type: 'int',
       foreignKey: {
         name: 'fk_orders_user',

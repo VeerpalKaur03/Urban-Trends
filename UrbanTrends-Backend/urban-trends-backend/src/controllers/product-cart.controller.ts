@@ -16,8 +16,8 @@ import {
   requestBody,
 } from '@loopback/rest';
 import {
-  Product,
   Cart,
+  Product,
 } from '../models';
 import {ProductRepository} from '../repositories';
 
@@ -61,7 +61,7 @@ export class ProductCartController {
           schema: getModelSchemaRef(Cart, {
             title: 'NewCartInProduct',
             exclude: ['id'],
-            optional: ['productId']
+            optional: ['product_id']
           }),
         },
       },

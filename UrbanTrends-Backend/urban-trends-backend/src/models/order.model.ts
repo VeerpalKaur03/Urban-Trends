@@ -22,11 +22,11 @@ export class Order extends Entity {
 
 
 
-  @hasMany(() => OrderItem, {keyTo: 'orderId'})
+  @hasMany(() => OrderItem, {keyTo: 'order_id'})
   orderItems: OrderItem[];
 
-  @belongsTo(() => User)
-  userId: number;
+  @belongsTo(() => User, {name: 'user'}, {postgresql: {columnName: 'user_id'}})
+  user_id: number;
 
   constructor(data?: Partial<Order>) {
     super(data);

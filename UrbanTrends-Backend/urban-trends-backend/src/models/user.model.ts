@@ -36,10 +36,10 @@ export class User extends Entity {
   })
   role?: string;
 
-  @hasMany(() => Cart, {keyTo: 'userId'})
+  @hasMany(() => Cart, {keyTo: 'user_id'})
   carts: Cart[];
 
-  @hasMany(() => Order, {keyTo: 'userId'})
+  @hasMany(() => Order, {keyTo: 'user_id'})
   orders: Order[];
 
   constructor(data?: Partial<User>) {

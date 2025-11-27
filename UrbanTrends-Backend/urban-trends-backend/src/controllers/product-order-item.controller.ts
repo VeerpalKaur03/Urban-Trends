@@ -16,8 +16,8 @@ import {
   requestBody,
 } from '@loopback/rest';
 import {
-  Product,
   OrderItem,
+  Product,
 } from '../models';
 import {ProductRepository} from '../repositories';
 
@@ -61,7 +61,7 @@ export class ProductOrderItemController {
           schema: getModelSchemaRef(OrderItem, {
             title: 'NewOrderItemInProduct',
             exclude: ['id'],
-            optional: ['productId']
+            optional: ['product_id']
           }),
         },
       },

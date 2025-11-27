@@ -1,7 +1,4 @@
-import {
-  FilterExcludingWhere,
-  repository
-} from '@loopback/repository';
+import {FilterExcludingWhere, repository} from '@loopback/repository';
 import {
   del,
   get,
@@ -9,7 +6,7 @@ import {
   param,
   post,
   requestBody,
-  response
+  response,
 } from '@loopback/rest';
 import {authenticate, STRATEGY} from 'loopback4-authentication';
 import {authorize} from 'loopback4-authorization';
@@ -22,7 +19,6 @@ export class CartController {
     @repository(CartRepository)
     public cartRepository: CartRepository,
   ) { }
-
 
   @authenticate(STRATEGY.BEARER)
   @authorize({
@@ -37,23 +33,16 @@ export class CartController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Cart, {
-            title: 'NewCart',
-            // exclude: ['id'],
-          }),
+          schema: getModelSchemaRef(Cart, {title: 'NewCart'}),
         },
       },
     })
     cart: Cart,
   ): Promise<Cart> {
-    const {userId, productId} = cart;
-    console.log('Adding to cart - userId:', userId, 'productId:', productId);
+    const {user_id, product_id} = cart;
 
     const existingCartItem = await this.cartRepository.findOne({
-      where: {
-        userId: userId,
-        productId: productId,
-      },
+      where: {user_id, product_id},
     });
 
     if (existingCartItem) {
@@ -62,25 +51,12 @@ export class CartController {
       return existingCartItem;
     }
 
-    const newCart = await this.cartRepository.create({
-      id: cart.id,
-      userId: cart.userId,
-      productId: cart.productId,
-      quantity: cart.quantity,
-
-    });
-
-    return newCart;
-
-
+    return this.cartRepository.create(cart);
   }
 
-
   @authenticate(STRATEGY.BEARER)
-  @authorize({
-    permissions: [PermissionKey.ViewCart],
-  })
-  @get('/carts/user/{userId}')
+  @authorize({permissions: [PermissionKey.ViewCart]})
+  @get('/carts/user/{user_id}')
   @response(200, {
     description: 'Array of Cart model instances with product info',
     content: {
@@ -92,47 +68,33 @@ export class CartController {
       },
     },
   })
-  async find(
-    @param.path.number('userId') userId: number,
-  ): Promise<Cart[]> {
+  async find(@param.path.number('user_id') user_id: number): Promise<Cart[]> {
     return this.cartRepository.find({
-      where: {userId},
+      where: {user_id},
       include: [{relation: 'product'}],
     });
   }
 
-
   @authenticate(STRATEGY.BEARER)
-  @authorize({
-    permissions: [PermissionKey.ViewCart],
-  })
+  @authorize({permissions: [PermissionKey.ViewCart]})
   @get('/carts/{id}')
   @response(200, {
     description: 'Cart model instance',
     content: {
-      'application/json': {
-        schema: getModelSchemaRef(Cart, {includeRelations: true}),
-      },
+      'application/json': {schema: getModelSchemaRef(Cart, {includeRelations: true})},
     },
   })
   async findById(
     @param.path.number('id') id: number,
-    @param.filter(Cart, {exclude: 'where'}) filter?: FilterExcludingWhere<Cart>
+    @param.filter(Cart, {exclude: 'where'}) filter?: FilterExcludingWhere<Cart>,
   ): Promise<Cart> {
     return this.cartRepository.findById(id, filter);
   }
 
-
-
-
   @authenticate(STRATEGY.BEARER)
-  @authorize({
-    permissions: [PermissionKey.RemoveFromCart],
-  })
+  @authorize({permissions: [PermissionKey.RemoveFromCart]})
   @del('/carts/{id}')
-  @response(204, {
-    description: 'Cart DELETE success',
-  })
+  @response(204, {description: 'Cart DELETE success'})
   async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.cartRepository.deleteById(id);
   }

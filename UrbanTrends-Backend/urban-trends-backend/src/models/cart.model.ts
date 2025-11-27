@@ -8,35 +8,35 @@ export class Cart extends Entity {
     type: 'number',
     id: true,
     generated: true,
-    required: false,
+    postgresql: {columnName: 'id'},
   })
   id?: number;
-
 
   @property({
     type: 'number',
     required: true,
     default: 1,
+    postgresql: {columnName: 'quantity'},
   })
   quantity: number;
 
+  @belongsTo(() => User, {name: 'user'}, {postgresql: {columnName: 'user_id'}})
+  user_id: number;
 
-  @belongsTo(() => User)
-  userId: number;
 
-  @belongsTo(() => Product)
-  productId: number;
+  @belongsTo(() => Product, {name: 'product'}, {postgresql: {columnName: 'product_id'}})
+  product_id: number;
+
 
   constructor(data?: Partial<Cart>) {
     super(data);
   }
 }
 
+
 export interface CartRelations {
-  // describe navigational properties here
   product?: Product;
   user?: User;
-
 }
 
 export type CartWithRelations = Cart & CartRelations;

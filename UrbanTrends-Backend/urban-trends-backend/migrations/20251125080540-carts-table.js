@@ -4,7 +4,7 @@ exports.up = function (db, callback) {
   db.createTable('carts', {
     id: { type: 'int', primaryKey: true, autoIncrement: true },
     quantity: { type: 'int', notNull: true, defaultValue: 1 },
-    userId: {
+    user_id: {
       type: 'int',
       notNull: true,
       foreignKey: {
@@ -13,7 +13,7 @@ exports.up = function (db, callback) {
         mapping: 'id'
       }
     },
-    productId: {
+    product_id: {
       type: 'int',
       notNull: true,
       foreignKey: {

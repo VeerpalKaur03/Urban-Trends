@@ -15,7 +15,7 @@ export class OrderItem extends Entity {
     type: 'number',
     required: true,
   })
-  priceAtPurchase: number;
+  price: number;
 
   @property({
     type: 'number',
@@ -23,11 +23,11 @@ export class OrderItem extends Entity {
   })
   quantity: number;
 
-  @belongsTo(() => Product)
-  productId: number;
+  @belongsTo(() => Product, {name: 'product'}, {postgresql: {columnName: 'product_id'}})
+  product_id: number;
 
-  @belongsTo(() => Order)
-  orderId: number;
+  @belongsTo(() => Order, {name: 'order'}, {postgresql: {columnName: 'order_id'}})
+  order_id: number;
 
   constructor(data?: Partial<OrderItem>) {
     super(data);

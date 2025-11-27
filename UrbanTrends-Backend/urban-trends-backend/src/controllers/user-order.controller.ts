@@ -16,8 +16,8 @@ import {
   requestBody,
 } from '@loopback/rest';
 import {
-  User,
   Order,
+  User,
 } from '../models';
 import {UserRepository} from '../repositories';
 
@@ -61,7 +61,7 @@ export class UserOrderController {
           schema: getModelSchemaRef(Order, {
             title: 'NewOrderInUser',
             exclude: ['id'],
-            optional: ['userId']
+            optional: ['user_id']
           }),
         },
       },

@@ -61,7 +61,7 @@ export class OrderOrderItemController {
           schema: getModelSchemaRef(OrderItem, {
             title: 'NewOrderItemInOrder',
             exclude: ['id'],
-            optional: ['orderId']
+            optional: ['order_id']
           }),
         },
       },

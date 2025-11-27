@@ -67,7 +67,7 @@ export class OrdersComponent {
     let total = 0;
 
     order.orderItems.forEach((item: any) => {
-      total += item.priceAtPurchase * item.quantity;
+      total += item.price * item.quantity;
     });
 
     return total;

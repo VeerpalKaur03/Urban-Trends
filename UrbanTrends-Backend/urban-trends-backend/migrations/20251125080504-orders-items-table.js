@@ -3,9 +3,9 @@
 exports.up = function (db, callback) {
   db.createTable('order_items', {
     id: { type: 'int', primaryKey: true, autoIncrement: true },
-    priceAtPurchase: { type: 'int', notNull: true },
+    price: { type: 'int', notNull: true },
     quantity: { type: 'int', notNull: true },
-    productId: {
+    product_id: {
       type: 'int',
       notNull: true,
       foreignKey: {
@@ -14,7 +14,7 @@ exports.up = function (db, callback) {
         mapping: 'id'
       }
     },
-    orderId: {
+    order_id: {
       type: 'int',
       notNull: true,
       foreignKey: {

@@ -48,10 +48,10 @@ export class Product extends Entity {
   })
   image_url: string;
 
-  @hasMany(() => Cart, {keyTo: 'productId'})
+  @hasMany(() => Cart, {keyTo: 'product_id'})
   carts: Cart[];
 
-  @hasMany(() => OrderItem, {keyTo: 'productId'})
+  @hasMany(() => OrderItem, {keyTo: 'product_id'})
   orderItems: OrderItem[];
 
   constructor(data?: Partial<Product>) {

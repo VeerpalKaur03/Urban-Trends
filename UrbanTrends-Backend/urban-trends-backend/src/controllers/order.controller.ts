@@ -41,7 +41,7 @@ export class OrderController {
   @authorize({
     permissions: [PermissionKey.CreateOrders],
   })
-  @post('/orders/{userId}')
+  @post('/orders/{user_id}')
   @response(200, {
     description: 'Order model instance',
     content: {'application/json': {schema: getModelSchemaRef(Order)}},
@@ -57,12 +57,12 @@ export class OrderController {
         },
       },
     })
-    @param.path.number('userId') userId: number
+    @param.path.number('user_id') user_id: number
 
   ): Promise<Order> {
 
     const cartItems = await this.cartRepository.find({
-      where: {userId}
+      where: {user_id}
     });
 
     if (cartItems.length === 0) {
@@ -73,7 +73,7 @@ export class OrderController {
 
     // let totalAmount = 0;
     // for (const item of cartItems) {
-    //   const product = await this.productRepository.findById(item.productId);
+    //   const product = await this.productRepository.findById(item.product_id);
     //   totalAmount += product.price * item.quantity;
 
     // }
@@ -82,19 +82,19 @@ export class OrderController {
     const newOrder = await this.orderRepository.create({
       // totalAmount,
       status: 'Placed',
-      userId,
+      user_id,
     });
 
     console.log('newOrder', newOrder);
 
 
     for (const item of cartItems) {
-      const product = await this.productRepository.findById(item.productId);
+      const product = await this.productRepository.findById(item.product_id);
 
       await this.orderRepository.orderItems(newOrder.id).create({
-        productId: item.productId,
+        product_id: item.product_id,
         quantity: item.quantity,
-        priceAtPurchase: product.price,
+        price: product.price,
       });
     }
 
@@ -114,7 +114,7 @@ export class OrderController {
   @authorize({
     permissions: [PermissionKey.ViewOrders],
   })
-  @get('/orders/user/{userId}')
+  @get('/orders/user/{user_id}')
   @response(200, {
     description: 'Array of Order model instances',
     content: {
@@ -127,10 +127,10 @@ export class OrderController {
     },
   })
   async find(
-    @param.path.number('userId') userId: number,
+    @param.path.number('user_id') user_id: number,
   ): Promise<Order[]> {
     return this.orderRepository.find({
-      where: {userId},
+      where: {user_id},
       include: [
         {
           relation: 'orderItems',
@@ -178,6 +178,11 @@ export class OrderController {
     description: 'Order DELETE success',
   })
   async deleteById(@param.path.number('id') id: number): Promise<void> {
+    // Delete all order items related to this order using the relation accessor
+    await this.orderRepository.orderItems(id).delete();
+
+    // Delete the order itself
     await this.orderRepository.deleteById(id);
   }
+
 }
